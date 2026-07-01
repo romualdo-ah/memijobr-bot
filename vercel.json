@@ -1,4 +1,5 @@
 {
-  "version": 2,
-  "builds": [{ "src": "api/webhook.js", "use": "@vercel/node" }]
+  "framework": null,
+  "buildCommand": "",
+  "outputDirectory": "."
 }
