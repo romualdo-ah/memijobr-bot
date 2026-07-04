@@ -1,6 +1,7 @@
 const KEYWORDS = ["quero", "link", "comprar", "valor", "preço", "preco"];
 const DM_TEXT =
   "Olá! 🌟 Aqui está o link do produto que você pediu:\n\n👉 https://memijobr.com/link-na-bio";
+const REPLY_TEXT = "Prontinho! 📩 Te enviei o link no seu Direct 😉";
 
 module.exports = async (req, res) => {
   // GET — verificação do webhook Meta
@@ -50,6 +51,30 @@ module.exports = async (req, res) => {
           );
         } else {
           console.log("private_reply OK", commentId, JSON.stringify(fbBody));
+
+          // DM enviada → responde publicamente ao comentário avisando o usuário.
+          const replyRes = await fetch(
+            `https://graph.facebook.com/v20.0/${commentId}/replies`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                message: REPLY_TEXT,
+                access_token: process.env.INSTAGRAM_ACCESS_TOKEN,
+              }),
+            }
+          );
+          const replyBody = await replyRes.json().catch(() => ({}));
+          if (!replyRes.ok || replyBody.error) {
+            console.error(
+              "public reply FAILED",
+              commentId,
+              replyRes.status,
+              JSON.stringify(replyBody.error || replyBody)
+            );
+          } else {
+            console.log("public reply OK", commentId, JSON.stringify(replyBody));
+          }
         }
       }
     }
