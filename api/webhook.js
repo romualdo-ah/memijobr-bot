@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         if (!commentId || !KEYWORDS.some((k) => text.includes(k))) continue;
 
         // ponytail: await garante envio antes de fechar a função Vercel
-        await fetch(
+        const fbRes = await fetch(
           `https://graph.facebook.com/v20.0/${commentId}/private_replies`,
           {
             method: "POST",
@@ -39,6 +39,18 @@ module.exports = async (req, res) => {
             }),
           }
         );
+        // Sem isto, um DM que falha ainda devolve 200 ao Meta (falha silenciosa).
+        const fbBody = await fbRes.json().catch(() => ({}));
+        if (!fbRes.ok || fbBody.error) {
+          console.error(
+            "private_reply FAILED",
+            commentId,
+            fbRes.status,
+            JSON.stringify(fbBody.error || fbBody)
+          );
+        } else {
+          console.log("private_reply OK", commentId, JSON.stringify(fbBody));
+        }
       }
     }
 
