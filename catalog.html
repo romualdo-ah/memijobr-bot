@@ -1,17 +1,95 @@
 <!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Memijo — Links das ofertas</title>
+<meta name="theme-color" content="#0e0f13">
+<title>Ofertas Memijo</title>
 <style>
-body{font-family:system-ui,sans-serif;max-width:640px;margin:24px auto;padding:0 16px;color:#222}
-h1{font-size:1.25rem} ul{list-style:none;padding:0}
-li{padding:12px 0;border-bottom:1px solid #eee}
-a{color:#0a66c2;text-decoration:none;font-weight:600}
-:target{background:#fff6d6;border-radius:6px}
+:root{
+  --bg:#0e0f13; --card:#171a21; --line:#242833;
+  --tx:#e9eaee; --mut:#8a909c;
+  --num:#ffd21e;               /* assinatura: amarelo-oferta */
+  --cta:#12c26a; --cta-h:#0fa259;  /* verde-conversão */
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:5;background:rgba(14,15,19,.92);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:16px 16px 12px}
+.wrap{max-width:920px;margin:0 auto}
+h1{margin:0;font-size:1.35rem;letter-spacing:-.02em}
+h1 b{color:var(--num)}
+.sub{margin:4px 0 0;color:var(--mut);font-size:.88rem}
+.sub .count{color:var(--tx);font-weight:600}
+.controls{display:flex;gap:10px;align-items:center;margin-top:12px}
+#q{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);color:var(--tx);
+  padding:12px 14px;border-radius:10px;font-size:1rem;outline:none}
+#q:focus{border-color:var(--num)}
+#q::placeholder{color:var(--mut)}
+.toggle{display:flex;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;overflow:hidden;flex:none}
+.toggle button{background:none;border:0;color:var(--mut);padding:11px 13px;
+  font-size:.9rem;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--line);color:var(--tx)}
+main{max-width:920px;margin:18px auto 64px;padding:0 16px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.grid.list{grid-template-columns:1fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px;display:flex;flex-direction:column;gap:10px;
+  transition:transform .12s ease,border-color .12s ease}
+.card:hover{transform:translateY(-2px);border-color:#333a49}
+.num{align-self:flex-start;color:var(--num);
+  font:700 1rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  background:rgba(255,210,30,.1);padding:6px 10px;border-radius:8px}
+.title{margin:0;font-size:.98rem;font-weight:600;line-height:1.35;flex:1}
+.cta{margin-top:2px;text-align:center;background:var(--cta);color:#04140b;
+  font-weight:700;text-decoration:none;padding:11px;border-radius:10px}
+.cta::after{content:" \203A"}
+.cta:hover{background:var(--cta-h)}
+.list .card{flex-direction:row;align-items:center}
+.list .num{align-self:center}
+.list .title{font-size:1rem}
+.list .cta{margin:0;white-space:nowrap;padding:10px 18px}
+:target{outline:2px solid var(--num);outline-offset:3px}
+.none,#empty{color:var(--mut);text-align:center;padding:32px 0}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+@media (max-width:520px){.grid{grid-template-columns:1fr}}
 </style></head><body>
-<h1>🛒 Ofertas Memijo — ache pelo número do post</h1>
-<p>Recebeu um código no Direct? Procure o número aqui embaixo.</p>
-<ul>
-<li>Sem produtos ainda.</li>
-</ul>
+<header><div class="wrap">
+<h1>🛒 Ofertas <b>Memijo</b></h1>
+<p class="sub">Recebeu um número no Direct? Busque por ele. <span class="count">0 ofertas</span></p>
+<div class="controls">
+<input id="q" type="search" inputmode="search" placeholder="Buscar por número ou produto…" aria-label="Buscar">
+<div class="toggle" role="group" aria-label="Visualização">
+<button data-view="grid" aria-pressed="true">▦</button>
+<button data-view="list" aria-pressed="false">☰</button>
+</div></div></div></header>
+<main><div id="grid" class="grid">
+<p class="none">Nenhuma oferta publicada ainda.</p>
+</div><p id="empty" hidden>Nenhuma oferta encontrada.</p></main>
+<script>
+(function(){
+  var q=document.getElementById('q'),grid=document.getElementById('grid'),
+      empty=document.getElementById('empty'),
+      cards=[].slice.call(document.querySelectorAll('.card'));
+  function norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
+  q.addEventListener('input',function(){
+    var t=norm(q.value.trim()),n=0;
+    cards.forEach(function(c){var hit=!t||c.dataset.s.indexOf(t)>-1;c.hidden=!hit;if(hit)n++;});
+    empty.hidden=n>0;
+  });
+  function setView(v){
+    grid.classList.toggle('list',v==='list');
+    document.querySelectorAll('.toggle button').forEach(function(b){
+      b.setAttribute('aria-pressed',b.dataset.view===v);});
+    try{localStorage.setItem('memijo-view',v);}catch(e){}
+  }
+  document.querySelectorAll('.toggle button').forEach(function(b){
+    b.onclick=function(){setView(b.dataset.view);};});
+  var saved='grid';try{saved=localStorage.getItem('memijo-view')||'grid';}catch(e){}
+  setView(saved);
+  if(location.hash){var el=document.querySelector(location.hash);
+    if(el)el.scrollIntoView({block:'center'});}
+})();
+</script>
 </body></html>
