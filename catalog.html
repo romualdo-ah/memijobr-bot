@@ -31,6 +31,13 @@ h1 b{color:var(--num)}
 .toggle button{background:none;border:0;color:var(--mut);padding:11px 13px;
   font-size:.9rem;cursor:pointer}
 .toggle button[aria-pressed="true"]{background:var(--line);color:var(--tx)}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{background:var(--card);border:1px solid var(--line);color:var(--mut);
+  padding:9px 14px;border-radius:999px;font-size:.85rem;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--num);color:#000;border-color:var(--num);font-weight:700}
+.thumb{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px}
+.list .thumb{width:72px;height:72px;flex:none}
 main{max-width:920px;margin:18px auto 64px;padding:0 16px}
 .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
 .grid.list{grid-template-columns:1fr}
@@ -63,12 +70,14 @@ main{max-width:920px;margin:18px auto 64px;padding:0 16px}
 <div class="toggle" role="group" aria-label="Visualização">
 <button data-view="grid" aria-pressed="true">▦</button>
 <button data-view="list" aria-pressed="false">☰</button>
-</div></div></div></header>
+</div></div>
+<div class="chips" role="group" aria-label="Filtrar por carro"><button class="chip" data-car="" aria-pressed="true">Todos</button><button class="chip" data-car="peugeot_206_1_6_16v" aria-pressed="false">Peugeot 206 1.6 16v</button></div>
+</div></header>
 <main><div id="grid" class="grid">
-<article class="card" id="p4" data-s="4 bobina ignicao peugeot 206 307 1.6 16v ."><span class="num">#4</span><h2 class="title">Bobina Ignição Peugeot 206 307 1.6 16v .</h2><a class="cta" href="https://meli.la/18UW89Z" rel="nofollow sponsored" target="_blank">Ver oferta</a></article>
-<article class="card" id="p3" data-s="3 kit correia dentada e tensor peugeot 206 207 1.6 16v"><span class="num">#3</span><h2 class="title">Kit Correia Dentada E Tensor Peugeot 206 207 1.6 16v</h2><a class="cta" href="https://meli.la/1FjyoeD" rel="nofollow sponsored" target="_blank">Ver oferta</a></article>
-<article class="card" id="p2" data-s="2 coletor admissao peugeot 1.4 8v 206 2004 2006 2007 2008 2010"><span class="num">#2</span><h2 class="title">Coletor Admissão Peugeot 1.4 8v 206 2004 2006 2007 2008 2010</h2><a class="cta" href="https://meli.la/2uKc5GJ" rel="nofollow sponsored" target="_blank">Ver oferta</a></article>
-<article class="card" id="p1" data-s="1 bucha do eixo traseiro do peugeot 206 branca - unidade"><span class="num">#1</span><h2 class="title">Bucha Do Eixo Traseiro Do Peugeot 206 Branca - Unidade</h2><a class="cta" href="https://meli.la/2oHLFSC" rel="nofollow sponsored" target="_blank">Ver oferta</a></article>
+<article class="card" id="p4" data-s="4 bobina ignicao peugeot 206 307 1.6 16v . peugeot 206 1.6 16v" data-car="peugeot_206_1_6_16v"><img class="thumb" loading="lazy" alt="" src="https://http2.mlstatic.com/D_NQ_NP_632954-MLB92256718519_092025-O-bobina-ignico-peugeot-206-307-16-16v-.webp"><span class="num">#4</span><h2 class="title">Bobina Ignição Peugeot 206 307 1.6 16v .</h2><a class="cta" href="https://meli.la/18UW89Z" rel="nofollow sponsored" target="_blank">Ver oferta</a></article>
+<article class="card" id="p3" data-s="3 kit correia dentada e tensor peugeot 206 207 1.6 16v peugeot 206 1.6 16v" data-car="peugeot_206_1_6_16v"><img class="thumb" loading="lazy" alt="" src="https://http2.mlstatic.com/D_NQ_NP_966651-MLB108957295935_032026-O.webp"><span class="num">#3</span><h2 class="title">Kit Correia Dentada E Tensor Peugeot 206 207 1.6 16v</h2><a class="cta" href="https://meli.la/1FjyoeD" rel="nofollow sponsored" target="_blank">Ver oferta</a></article>
+<article class="card" id="p2" data-s="2 coletor admissao peugeot 1.4 8v 206 2004 2006 2007 2008 2010 peugeot 206 1.6 16v" data-car="peugeot_206_1_6_16v"><img class="thumb" loading="lazy" alt="" src="https://http2.mlstatic.com/D_NQ_NP_995329-MLB108804589780_032026-O.webp"><span class="num">#2</span><h2 class="title">Coletor Admissão Peugeot 1.4 8v 206 2004 2006 2007 2008 2010</h2><a class="cta" href="https://meli.la/2uKc5GJ" rel="nofollow sponsored" target="_blank">Ver oferta</a></article>
+<article class="card" id="p1" data-s="1 bucha do eixo traseiro do peugeot 206 branca - unidade peugeot 206 1.6 16v" data-car="peugeot_206_1_6_16v"><img class="thumb" loading="lazy" alt="" src="https://http2.mlstatic.com/D_NQ_NP_632939-MLB89590043332_082025-O-bucha-do-eixo-traseiro-do-peugeot-206-branca-unidade.webp"><span class="num">#1</span><h2 class="title">Bucha Do Eixo Traseiro Do Peugeot 206 Branca - Unidade</h2><a class="cta" href="https://meli.la/2oHLFSC" rel="nofollow sponsored" target="_blank">Ver oferta</a></article>
 </div><p id="empty" hidden>Nenhuma oferta encontrada.</p></main>
 <script>
 (function(){
@@ -76,11 +85,25 @@ main{max-width:920px;margin:18px auto 64px;padding:0 16px}
       empty=document.getElementById('empty'),
       cards=[].slice.call(document.querySelectorAll('.card'));
   function norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
-  q.addEventListener('input',function(){
+  var activeCar='';
+  function apply(){
     var t=norm(q.value.trim()),n=0;
-    cards.forEach(function(c){var hit=!t||c.dataset.s.indexOf(t)>-1;c.hidden=!hit;if(hit)n++;});
+    cards.forEach(function(c){
+      var hit=(!t||c.dataset.s.indexOf(t)>-1)&&(!activeCar||c.dataset.car===activeCar);
+      c.hidden=!hit;if(hit)n++;
+    });
     empty.hidden=n>0;
-  });
+  }
+  q.addEventListener('input',apply);
+  var chips=[].slice.call(document.querySelectorAll('.chip'));
+  function setCar(v){
+    activeCar=v;
+    chips.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.car===v));});
+    apply();
+  }
+  chips.forEach(function(b){b.onclick=function(){setCar(b.dataset.car);};});
+  var pc=new URLSearchParams(location.search).get('car');
+  if(pc&&chips.some(function(b){return b.dataset.car===pc;}))setCar(pc);
   function setView(v){
     grid.classList.toggle('list',v==='list');
     document.querySelectorAll('.toggle button').forEach(function(b){
